@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For You ❤️</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
@@ -150,7 +151,7 @@
             font-size: 2rem;
             margin-top: 0;
         }
-        
+
         .modal-content p {
             font-size: 1.2rem;
             color: #555;
@@ -160,6 +161,7 @@
 
     </style>
 </head>
+
 <body>
 
     <div id="heart-container"></div>
@@ -182,8 +184,9 @@
         <div class="modal-content">
             <h2>Yay! I knew it! 💖</h2>
             <p>
-                Myon Zuvv thank You for making me the happiest person alive.
-                <br>I Love You.
+                Myon Zuvv thank You for making me the happiest person alive. You are my Everything, My Love, My baby, My Strongest, Cutest, Most Beautiful, Prettiest, 
+                Newest Born Smol Baby, My Wife, My Life, My Peace, Just Everything. I Love Youu with all my heart and soul ❤️.
+                <br>Tse Chuvv Myon Zuvv ❤️
             </p>
         </div>
     </div>
@@ -197,37 +200,40 @@
 
         // --- DATA ---
         
-        const runningReaction = {
-            text: "You can't catch me! 🏃‍♂️",
-            img: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGllbWR0ZzZhNnhnenVmbDBid3EyNmsydThvbWd3aXR3YXp6MTFsYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/I8z7CGrLDLpbq/giphy.gif"
-        };
-
-        const randomReactions = [
-            runningReaction, 
+        const reactionsArr = [
             { 
-                text: "Pretty please? 🥺", 
-                img: "https://media.giphy.com/media/L95W4wv8nnb9K/giphy.gif" 
+                text: "You can't catch me! 🏃‍♂️",
+                img: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGllbWR0ZzZhNnhnenVmbDBid3EyNmsydThvbWd3aXR3YXp6MTFsYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/I8z7CGrLDLpbq/giphy.gif"
             },
+
+            { 
+                text: "I'm gonna cry... 😭", 
+                img: "https://media.giphy.com/media/OPU6wzx8JrHna/giphy.gif" 
+            },
+
             { 
                 text: "I'll make you Chole okay Cholaa, Mushroom & Aloo Paratha! 🍛", 
                 img: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWl0MTc2MTh1M2dtb2RseWpvenQybGhienJlZWt5bDJ5MXNqOXFsOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/73trcfdnqJmrftTy7i/giphy.gif" 
             },
+
             { 
                 text: "Don't break my heart! 💔", 
                 img: "https://media.giphy.com/media/7SF5scGB2AFrgsXP63/giphy.gif" 
             },
+
             { 
                 text: "But we are perfect together! 😺", 
                 img: "https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" 
             },
+
             { 
-                text: "I'm gonna cry... 😭", 
-                img: "https://media.giphy.com/media/OPU6wzx8JrHna/giphy.gif" 
-            }
+                text: "Pretty please? 🥺", 
+                img: "https://media.giphy.com/media/L95W4wv8nnb9K/giphy.gif" 
+            },
+            
         ];
 
-        let lastIndex = -1;
-        let isFirstHover = true; 
+        let currentReactionIndex = 0; // Starts at 0 (First Item)
 
         // Background Hearts
         function createHearts() {
@@ -246,48 +252,40 @@
         }
         createHearts();
 
-        // --- NEW MOVE BUTTON LOGIC (MOBILE & DESKTOP) ---
+        // --- NEW MOVE BUTTON LOGIC (SEQUENTIAL ORDER) ---
         
         function moveNoButton(e) {
-            // Prevent the default click if it's a touch event (so it doesn't click the button in its new spot)
+            // Prevent default touch behavior so it doesn't "click"
             if (e && e.type === 'touchstart') {
                 e.preventDefault();
             }
 
-            // 1. Make sure button is fixed so we can move it anywhere
+            // 1. Move the Button
             noBtn.style.position = 'fixed';
-            
-            // 2. Calculate random position within screen limits
-            // padding of 20px so it doesn't touch the very edge
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
-            
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
 
-            // 3. Update Image & Text
-            if (isFirstHover) {
-                messageText.innerText = runningReaction.text;
-                memeImg.src = runningReaction.img;
-                isFirstHover = false; 
-            } else {
-                let newIndex;
-                do {
-                    newIndex = Math.floor(Math.random() * randomReactions.length);
-                } while (newIndex === lastIndex);
-                
-                lastIndex = newIndex;
-                messageText.innerText = randomReactions[newIndex].text;
-                memeImg.src = randomReactions[newIndex].img;
-            }
+            // 2. Get Current Reaction (In Order)
+            const reaction = reactionsArr[currentReactionIndex];
 
+            // 3. Display It
+            messageText.innerText = reaction.text;
+            memeImg.src = reaction.img;
             memeImg.style.display = 'block';
+
+            // 4. Increment Index (Loop back to 0 if at end)
+            currentReactionIndex++;
+            if (currentReactionIndex >= reactionsArr.length) {
+                currentReactionIndex = 0;
+            }
         }
 
-        // Add Listeners for BOTH Mouse (Desktop) and Touch/Click (Mobile)
+        // Add Listeners
         noBtn.addEventListener('mouseover', moveNoButton);
-        noBtn.addEventListener('click', moveNoButton);      // Fallback for click
-        noBtn.addEventListener('touchstart', moveNoButton); // Instant response on touch
+        noBtn.addEventListener('click', moveNoButton);      
+        noBtn.addEventListener('touchstart', moveNoButton); 
 
         // Yes Button
         yesBtn.addEventListener('click', () => {
@@ -299,6 +297,8 @@
                 successModal.style.display = 'none';
             }
         });
+
     </script>
+
 </body>
 </html>
