@@ -183,9 +183,6 @@
             <h2>Yay! I knew it! 💖</h2>
             <p>
                 Myon Zuvv thank You for making me the happiest person alive.
-                <!--I promise to never let go. I want to tell you how much I Love You
-                but it is so hard for me even to express what I feel, how much I feel
-                and this feeling it keeps growing everysecond. The best way for me to explain is that when I see You I feel peace. I feel like we are destined to be together. I never felt this way, this surity. But I am also growing a little superstitious, doing things that I did, that I do when I am with you, that I am able to make you feel a little special. -->
                 <br>I Love You.
             </p>
         </div>
@@ -198,41 +195,33 @@
         const memeImg = document.getElementById('meme-img');
         const successModal = document.getElementById('success-modal');
 
-        // --- FIXED IMAGES (NO DOGS) ---
+        // --- DATA ---
         
-        // 1. The Running Image (Cute Baby running away!)
         const runningReaction = {
             text: "You can't catch me! 🏃‍♂️",
-            // This is a direct GIF link of a cute baby running
             img: "https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExNGllbWR0ZzZhNnhnenVmbDBid3EyNmsydThvbWd3aXR3YXp6MTFsYiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/I8z7CGrLDLpbq/giphy.gif"
         };
 
-        // 2. The Random Pool
         const randomReactions = [
             runningReaction, 
-            {
-                // Pikachu
-                text: "Pretty please? 🥺",
+            { 
+                text: "Pretty please? 🥺", 
                 img: "https://media.giphy.com/media/L95W4wv8nnb9K/giphy.gif" 
             },
-            {
-                // The Food Promise (Cute Bear Cooking Pancakes - fits the Paratha vibe!)
-                text: "I'll make you Chole okay Cholaa, Mushroom & Aloo Paratha! 🍛",
+            { 
+                text: "I'll make you Chole okay Cholaa, Mushroom & Aloo Paratha! 🍛", 
                 img: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWl0MTc2MTh1M2dtb2RseWpvenQybGhienJlZWt5bDJ5MXNqOXFsOSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/73trcfdnqJmrftTy7i/giphy.gif" 
             },
-            {
-                // Sad Cat
-                text: "Don't break my heart! 💔",
+            { 
+                text: "Don't break my heart! 💔", 
                 img: "https://media.giphy.com/media/7SF5scGB2AFrgsXP63/giphy.gif" 
             },
-            {
-                // Cute Cat
-                text: "But we are perfect together! 😺",
+            { 
+                text: "But we are perfect together! 😺", 
                 img: "https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif" 
             },
-            {
-                // Crying Hamster
-                text: "I'm gonna cry... 😭",
+            { 
+                text: "I'm gonna cry... 😭", 
                 img: "https://media.giphy.com/media/OPU6wzx8JrHna/giphy.gif" 
             }
         ];
@@ -257,23 +246,31 @@
         }
         createHearts();
 
-        // Move "No" Button
-        noBtn.addEventListener('mouseover', () => {
-            // 1. Move Button
+        // --- NEW MOVE BUTTON LOGIC (MOBILE & DESKTOP) ---
+        
+        function moveNoButton(e) {
+            // Prevent the default click if it's a touch event (so it doesn't click the button in its new spot)
+            if (e && e.type === 'touchstart') {
+                e.preventDefault();
+            }
+
+            // 1. Make sure button is fixed so we can move it anywhere
             noBtn.style.position = 'fixed';
+            
+            // 2. Calculate random position within screen limits
+            // padding of 20px so it doesn't touch the very edge
             const x = Math.random() * (window.innerWidth - noBtn.offsetWidth - 20);
             const y = Math.random() * (window.innerHeight - noBtn.offsetHeight - 20);
+            
             noBtn.style.left = `${x}px`;
             noBtn.style.top = `${y}px`;
 
-            // 2. Determine Message
+            // 3. Update Image & Text
             if (isFirstHover) {
-                // FORCE the running message first
                 messageText.innerText = runningReaction.text;
                 memeImg.src = runningReaction.img;
                 isFirstHover = false; 
             } else {
-                // Random Selection
                 let newIndex;
                 do {
                     newIndex = Math.floor(Math.random() * randomReactions.length);
@@ -285,7 +282,12 @@
             }
 
             memeImg.style.display = 'block';
-        });
+        }
+
+        // Add Listeners for BOTH Mouse (Desktop) and Touch/Click (Mobile)
+        noBtn.addEventListener('mouseover', moveNoButton);
+        noBtn.addEventListener('click', moveNoButton);      // Fallback for click
+        noBtn.addEventListener('touchstart', moveNoButton); // Instant response on touch
 
         // Yes Button
         yesBtn.addEventListener('click', () => {
@@ -299,6 +301,4 @@
         });
     </script>
 </body>
-
 </html>
-
